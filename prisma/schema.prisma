@@ -1,0 +1,82 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                  String            @id @default(uuid())
+  empID               String            @unique
+  employeeName        String?
+  designation         String?
+  number              String?
+  email               String?
+  location            String?
+  password            String?
+  isAdmin             Boolean           @default(false)
+  isVerified          Boolean           @default(false)
+  verificationToken   String?
+  forgetPasswordToken String?
+  createdAt           DateTime          @default(now())
+  updatedAt           DateTime          @updatedAt
+  watchingHistory     WatchingHistory[]
+  assessments         Assessment[] // Updated field name to plural form
+  profilePicture      String?
+  bio                 String?
+  lastLogin           DateTime? // Timestamp of the user's last login
+}
+
+model Video {
+  videoId         String            @id @default(uuid())
+  videoName       String? // Name or title of the video
+  videoUrl        String? // URL of the video stored in AWS S3
+  videoDuration   String? // Duration of the video (e.g., "1:30:00" for 1 hour 30 minutes)
+  description     String? // Description of the video content
+  language        String?
+  category        String? // Category or genre of the video
+  thumbnail       String?
+  cover           String?
+  chapter         Int?
+  assessment      Boolean           @default(false)
+  assessmentUrl   String?
+  viewsCount      Int               @default(0) // Number of views for the video
+  likesCount      Int               @default(0) // Number of likes for the video
+  dislikesCount   Int               @default(0) // Number of dislikes for the video
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+  watchingHistory WatchingHistory[] // References to watching history
+}
+
+model WatchingHistory {
+  id                         String    @id @default(uuid())
+  user                       User      @relation(fields: [userId], references: [id])
+  userId                     String
+  video                      Video     @relation(fields: [videoId], references: [videoId])
+  videoId                    String    @unique
+  watchedAt                  DateTime  @default(now())
+  watchDuration              Int // Duration in seconds
+  playbackPosition           Int? // The last playback position of the video when the user stopped watching
+  deviceInfo                 String? // Information about the device used for watching (e.g., browser, device type)
+  isCompleted                Boolean   @default(false) // Indicates if the user watched the entire video
+  rating                     Int? // User's rating for the video
+  comments                   String? // Comments or feedback from the user about the video
+  chapterAssessmentCompleted Boolean[] @default([])
+}
+
+model Assessment {
+  id        String   @id @default(uuid())
+  name      String
+  duration  String
+  score     String
+  format    String
+  language  String
+  chapter   Int?
+  user      User     @relation(fields: [userId], references: [id]) // Updated field name to match User model
+  videoId   String   @unique
+  userId    String // Updated field name to match User model
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
