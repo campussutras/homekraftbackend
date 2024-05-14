@@ -5817,8 +5817,9 @@ export const userLogin = async (req: Request, res: Response) => {
       isAdmin: user.isAdmin,
     });
     const options = {
-      sameSite: false,
-      secure: false,
+      sameSite: true,
+      secure: true,
+      expires: new Date(Date.now() + 900000),
     };
     res.cookie(`Homekraft`, accessToken, options);
 

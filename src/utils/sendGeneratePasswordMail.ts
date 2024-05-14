@@ -33,7 +33,7 @@ export const sendGeneratePasswordMail = async ({
     <body>
     <p>Click on below link to generate your password of ATS Homekraft.</p><br/>
     <p>Valid upto 15 minutes only</p><br/>
-    <a href="http://localhost:5173/password/${token}">http://localhost:5173/password/${token}</a>
+    <a href="${process.env.DOMAIN}/password/${token}">${process.env.DOMAIN}/password/${token}</a>
     </body>
     </html>
         `;
