@@ -8,6 +8,7 @@ import morgan from "morgan";
 import userRouter from "./routes/userRoutes";
 import videoRouter from "./routes/videoRoutes";
 import assessRouter from "./routes/assessRoutes";
+import bcrypt from "bcrypt";
 
 dotenv.config();
 const app = express();

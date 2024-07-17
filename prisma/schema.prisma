@@ -12,10 +12,12 @@ model User {
   empID               String            @unique
   employeeName        String?
   designation         String?
+  department          String?
   number              String?
   email               String?
   location            String?
   password            String?
+  isPasswordChange    Boolean           @default(false)
   isAdmin             Boolean           @default(false)
   isVerified          Boolean           @default(false)
   verificationToken   String?

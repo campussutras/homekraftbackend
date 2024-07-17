@@ -1,7 +1,9 @@
 import express from "express";
 import {
   bulkUserSignup,
+  changePassword,
   deleteUser,
+  deleteUsers,
   getUser,
   getUsers,
   makeAdmin,
@@ -25,6 +27,7 @@ userRouter.post("/signup", userSignup);
 userRouter.post("/login", userLogin);
 userRouter.patch("/send-generate-password-mail", sendGeneratePassMail);
 userRouter.patch("/set-password/:token", userGeneratePassword);
+userRouter.patch("/change-password", authCheck, changePassword);
 userRouter.get("/profile", authCheck, userProfile);
 userRouter.patch("/forget-mail", sendForgetMail);
 userRouter.patch("/forget-password/:token", userForgetPassword);
@@ -36,6 +39,7 @@ userRouter.patch("/make-admin/:userId", makeAdmin);
 
 userRouter.get("/users", adminCheck, getUsers);
 userRouter.get("/user/:userId", adminCheck, getUser);
-userRouter.delete("/:userId", adminCheck, deleteUser);
+userRouter.delete("/delete-user/:userId", adminCheck, deleteUser);
+userRouter.delete("/delete-users", deleteUsers);
 
 export default userRouter;
