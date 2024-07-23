@@ -27,7 +27,7 @@ const generateToken = ({
     // @ts-ignore
     process.env.JWT_SECRET,
     {
-      expiresIn: process.env.JWT_EXPIRE,
+      expiresIn: "7d",
     }
   );
 };
@@ -50,7 +50,7 @@ const generateAccessToken = ({
     // @ts-ignore
     process.env.ACCESS_TOKEN_SECRET,
     {
-      expiresIn: expiresIn,
+      expiresIn: "7d",
     }
   );
 };
@@ -3629,7 +3629,7 @@ export const userLogin = async (req: Request, res: Response) => {
     const options = {
       sameSite: true,
       secure: true,
-      expires: new Date(Date.now() + 900000),
+      expires: new Date(Date.now() + 900000000),
     };
     res.cookie(`Homekraft`, accessToken, options);
 
