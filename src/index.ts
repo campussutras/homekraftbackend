@@ -36,6 +36,7 @@ const allowedOrigins = [
   "http://homekraft.3awebsolutions.com",
   "https://wwww.homekraft.3awebsolutions.com",
   "http://wwww.homekraft.3awebsolutions.com",
+  "http://192.168.1.15:5173",
 ];
 app.use(
   cors({

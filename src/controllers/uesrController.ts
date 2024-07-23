@@ -3629,7 +3629,7 @@ export const userLogin = async (req: Request, res: Response) => {
     const options = {
       sameSite: true,
       secure: true,
-      expires: new Date(Date.now() + 900000000),
+      expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
     };
     res.cookie(`Homekraft`, accessToken, options);
 
