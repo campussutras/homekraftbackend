@@ -57,7 +57,7 @@ model WatchingHistory {
   user                       User      @relation(fields: [userId], references: [id])
   userId                     String
   video                      Video     @relation(fields: [videoId], references: [videoId])
-  videoId                    String    @unique
+  videoId                    String
   watchedAt                  DateTime  @default(now())
   watchDuration              Int // Duration in seconds
   playbackPosition           Int? // The last playback position of the video when the user stopped watching

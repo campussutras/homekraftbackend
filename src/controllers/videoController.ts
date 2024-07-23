@@ -337,35 +337,6 @@ export const addWatchHistory = async (req: Request, res: Response) => {
     const { videoId } = req.params;
     const { watchDuration, isCompleted } = req.body;
 
-    // Check current number of watch history entries for the user
-    // const userWatchHistoryCount = await prisma.watchingHistory.count({
-    //   where: {
-    //     userId: decodedToken.id,
-    //   },
-    // });
-
-    // // If user has 20 or more watch history entries, remove the oldest entry
-    // if (userWatchHistoryCount >= 20) {
-    //   // Find the oldest watch history entry for the user
-    //   const oldestWatchHistory = await prisma.watchingHistory.findFirst({
-    //     where: {
-    //       userId: decodedToken.id,
-    //     },
-    //     orderBy: {
-    //       watchedAt: "asc", // Order by watchedAt in ascending order to get the oldest entry
-    //     },
-    //   });
-
-    //   // Delete the oldest watch history entry
-    //   if (oldestWatchHistory) {
-    //     await prisma.watchingHistory.delete({
-    //       where: {
-    //         id: oldestWatchHistory.id,
-    //       },
-    //     });
-    //   }
-    // }
-
     // Create a new watching history entry using Prisma
     const watchingHistoryEntry = await prisma.watchingHistory.create({
       data: {
@@ -381,9 +352,15 @@ export const addWatchHistory = async (req: Request, res: Response) => {
       message: "Watch history added successfully",
       data: watchingHistoryEntry,
     });
-  } catch (error) {
+  } catch (error: any) {
     console.error("Error adding watch history:", error);
-    res.status(500).json({ error: "Internal server error" });
+
+    // Handle potential unique constraint violation gracefully
+    if (error.code === "P2002") {
+      res.status(409).json({ error: "Video already exists in watch history" });
+    } else {
+      res.status(500).json({ error: "Internal server error" });
+    }
   }
 };
 
