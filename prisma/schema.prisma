@@ -77,7 +77,7 @@ model Assessment {
   language  String
   chapter   Int?
   user      User     @relation(fields: [userId], references: [id]) // Updated field name to match User model
-  videoId   String   @unique
+  videoId   String
   userId    String // Updated field name to match User model
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
