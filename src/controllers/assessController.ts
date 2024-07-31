@@ -7,7 +7,7 @@ export const addAssess = async (req: Request, res: Response) => {
     const { name, duration, score, format, videoId, chapter, language } =
       req.body;
 
-    const findAssess = await prisma.assessment.findUnique({
+    const findAssess = await prisma.assessment.findFirst({
       where: { videoId: videoId },
     });
 
@@ -76,7 +76,7 @@ export const getVideoAssess = async (req: Request, res: Response) => {
   try {
     const { videoId } = req.params;
 
-    const vAssess = await prisma.assessment.findUnique({
+    const vAssess = await prisma.assessment.findFirst({
       where: { videoId },
     });
 
