@@ -4,11 +4,12 @@ const prisma = new PrismaClient();
 export const addAssess = async (req: Request, res: Response) => {
   try {
     // Validate request body
+    const decodedToken = req.userToken;
     const { name, duration, score, format, videoId, chapter, language } =
       req.body;
 
     const findAssess = await prisma.assessment.findFirst({
-      where: { videoId: videoId },
+      where: { videoId: videoId, userId: decodedToken.id },
     });
 
     if (findAssess) {
